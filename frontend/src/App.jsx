@@ -6,11 +6,14 @@ import ProductForm from './ProductForm';
 import ProductList from './ProductList';
 import Sidebar from './Sidebar';
 import LowStock from './LowStock';
+import Purchases from './Purchases';
+import Suppliers from './Suppliers';
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [suppliers, setSuppliers] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState('Dashboard');
@@ -34,6 +37,14 @@ function App() {
       axios.get('http://127.0.0.1:8000/categories')
         .then((response) => setCategories(response.data))
         .catch((error) => console.error('Error fetching categories:', error));
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (token) {
+      axios.get('http://127.0.0.1:8000/suppliers')
+        .then((response) => setSuppliers(response.data))
+        .catch((error) => console.error('Error fetching suppliers:', error));
     }
   }, [token]);
 
@@ -97,10 +108,11 @@ function App() {
 
           {currentPage === 'Products' && (
             <>
-              <ProductForm onAdd={handleAdd} />
+              <ProductForm onAdd={handleAdd} suppliers={suppliers} />
               <ProductList
                 products={products}
                 categories={categories}
+                suppliers={suppliers}
                 searchTerm={searchTerm}
                 selectedCategory={selectedCategory}
                 onSearchChange={handleSearchChange}
@@ -112,6 +124,10 @@ function App() {
           )}
 
           {currentPage === 'Low Stock' && <LowStock />}
+
+          {currentPage === 'Purchases' && <Purchases token={token} products={products} />}
+
+          {currentPage === 'Suppliers' && <Suppliers token={token} />}
         </div>
       </main>
     </div>

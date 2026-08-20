@@ -1,13 +1,16 @@
 import { useState } from 'react';
 
-function ProductRow({ product, onDelete, onUpdate }) {
+function ProductRow({ product, suppliers, onDelete, onUpdate }) {
   const [isEditing, setIsEditing] = useState(false);
   const [editForm, setEditForm] = useState({
     name: product.name,
     category: product.category,
     price: product.price,
     quantity: product.quantity,
+    supplier_id: product.supplier_id || '',
   });
+
+  const supplierName = suppliers.find((s) => s.id === product.supplier_id)?.name || 'No supplier';
 
   const startEdit = () => {
     setEditForm({
@@ -15,6 +18,7 @@ function ProductRow({ product, onDelete, onUpdate }) {
       category: product.category,
       price: product.price,
       quantity: product.quantity,
+      supplier_id: product.supplier_id || '',
     });
     setIsEditing(true);
   };
@@ -29,6 +33,7 @@ function ProductRow({ product, onDelete, onUpdate }) {
       category: editForm.category,
       price: parseFloat(editForm.price),
       quantity: parseInt(editForm.quantity),
+      supplier_id: editForm.supplier_id ? parseInt(editForm.supplier_id) : null,
     });
     setIsEditing(false);
   };
@@ -60,6 +65,16 @@ function ProductRow({ product, onDelete, onUpdate }) {
           onChange={(e) => setEditForm({ ...editForm, quantity: e.target.value })}
           className="border border-slate-300 rounded-md px-2 py-1 text-sm w-16"
         />
+        <select
+          value={editForm.supplier_id}
+          onChange={(e) => setEditForm({ ...editForm, supplier_id: e.target.value })}
+          className="border border-slate-300 rounded-md px-2 py-1 text-sm w-32"
+        >
+          <option value="">None</option>
+          {suppliers.map((s) => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+          ))}
+        </select>
         <button onClick={saveEdit} className="text-green-600 hover:text-green-800 text-sm font-medium">
           Save
         </button>
@@ -75,7 +90,7 @@ function ProductRow({ product, onDelete, onUpdate }) {
       <div>
         <p className="font-medium text-slate-800">{product.name}</p>
         <p className="text-sm text-slate-500">
-          {product.category} · ₹{product.price} · Qty: {product.quantity}
+          {product.category} · ₹{product.price} · Qty: {product.quantity} · {supplierName}
         </p>
       </div>
       <div className="flex gap-3">

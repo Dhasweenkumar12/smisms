@@ -1,10 +1,11 @@
 import { useState } from 'react';
 
-function ProductForm({ onAdd }) {
+function ProductForm({ onAdd, suppliers }) {
   const [name, setName] = useState('');
   const [category, setCategory] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
+  const [supplierId, setSupplierId] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,11 +14,13 @@ function ProductForm({ onAdd }) {
       category,
       price: parseFloat(price),
       quantity: parseInt(quantity),
+      supplier_id: supplierId ? parseInt(supplierId) : null,
     });
     setName('');
     setCategory('');
     setPrice('');
     setQuantity('');
+    setSupplierId('');
   };
 
   return (
@@ -71,6 +74,20 @@ function ProductForm({ onAdd }) {
           required
           className="border border-slate-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
+      </div>
+
+      <div className="flex flex-col">
+        <label className="text-xs text-slate-500 mb-1">Supplier</label>
+        <select
+          value={supplierId}
+          onChange={(e) => setSupplierId(e.target.value)}
+          className="border border-slate-300 rounded-md px-3 py-2 text-sm w-40"
+        >
+          <option value="">None</option>
+          {suppliers.map((s) => (
+            <option key={s.id} value={s.id}>{s.name}</option>
+          ))}
+        </select>
       </div>
 
       <button

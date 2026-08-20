@@ -3,6 +3,7 @@ import ProductRow from './ProductRow';
 function ProductList({
   products,
   categories,
+  suppliers,
   searchTerm,
   selectedCategory,
   onSearchChange,
@@ -41,6 +42,7 @@ function ProductList({
           <ProductRow
             key={product.id}
             product={product}
+            suppliers={suppliers}
             onDelete={onDelete}
             onUpdate={onUpdate}
           />

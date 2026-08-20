@@ -3,6 +3,8 @@ function Sidebar({ onLogout, currentPage, onNavigate }) {
     { label: 'Dashboard', icon: '📊' },
     { label: 'Products', icon: '📦' },
     { label: 'Low Stock', icon: '⚠️' },
+    { label: 'Purchases', icon: '🧾' },
+    { label: 'Suppliers', icon: '🚚' },
   ];
 
   return (
