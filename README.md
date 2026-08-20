@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -35,3 +36,6 @@ A full-stack inventory management app with authentication, role-based access, se
 ## Setup
 
 ### Backend
+=======
+# smisms
+>>>>>>> cf3fc6e99b0cdb816d5b5bd04e84c678b0535b49
