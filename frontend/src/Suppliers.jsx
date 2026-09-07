@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from './config';
 
 function Suppliers({ token }) {
   const [suppliers, setSuppliers] = useState([]);
@@ -8,7 +9,7 @@ function Suppliers({ token }) {
   const [phone, setPhone] = useState('');
 
   const fetchSuppliers = () => {
-    axios.get('http://127.0.0.1:8000/suppliers')
+    axios.get(`${API_URL}/suppliers`)
       .then((response) => setSuppliers(response.data))
       .catch((error) => console.error('Error fetching suppliers:', error));
   };
@@ -20,7 +21,7 @@ function Suppliers({ token }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://127.0.0.1:8000/suppliers', {
+    axios.post(`${API_URL}/suppliers`, {
       name,
       contact_email: email || null,
       phone: phone || null,
@@ -37,7 +38,7 @@ function Suppliers({ token }) {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://127.0.0.1:8000/suppliers/${id}`, {
+    axios.delete(`${API_URL}/suppliers/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(() => fetchSuppliers())
@@ -101,7 +102,7 @@ function Suppliers({ token }) {
             <div>
               <p className="font-medium text-slate-800">{supplier.name}</p>
               <p className="text-sm text-slate-500">
-                {supplier.contact_email || 'No email'} · {supplier.phone || 'No phone'}
+                {supplier.contact_email || 'No email'} - {supplier.phone || 'No phone'}
               </p>
             </div>
             <button

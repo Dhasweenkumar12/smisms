@@ -1,5 +1,6 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import axios from 'axios';
+import { API_URL } from './config';
 
 function Login({ onLoginSuccess }) {
   const [email, setEmail] = useState('');
@@ -10,14 +11,18 @@ function Login({ onLoginSuccess }) {
     e.preventDefault();
     setError('');
 
-    axios.post('http://127.0.0.1:8000/login', { email, password })
+    axios.post(`${API_URL}/login`, { email, password })
       .then((response) => {
         const token = response.data.access_token;
         localStorage.setItem('token', token);
         onLoginSuccess(token);
       })
-      .catch(() => {
-        setError('Invalid email or password');
+      .catch((err) => {
+        if (err.response) {
+          setError('Invalid email or password');
+        } else {
+          setError('Cannot reach server - is the backend running?');
+        }
       });
   };
 

@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from './config';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import ProductForm from './ProductForm';
@@ -23,7 +24,7 @@ function App() {
     if (search) params.search = search;
     if (category) params.category = category;
 
-    axios.get('http://127.0.0.1:8000/products', { params })
+    axios.get(`${API_URL}/products`, { params })
       .then((response) => setProducts(response.data))
       .catch((error) => console.error('Error fetching products:', error));
   };
@@ -34,7 +35,7 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      axios.get('http://127.0.0.1:8000/categories')
+      axios.get(`${API_URL}/categories`)
         .then((response) => setCategories(response.data))
         .catch((error) => console.error('Error fetching categories:', error));
     }
@@ -42,7 +43,7 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      axios.get('http://127.0.0.1:8000/suppliers')
+      axios.get(`${API_URL}/suppliers`)
         .then((response) => setSuppliers(response.data))
         .catch((error) => console.error('Error fetching suppliers:', error));
     }
@@ -59,7 +60,7 @@ function App() {
   };
 
   const handleAdd = (newProduct) => {
-    axios.post('http://127.0.0.1:8000/products', newProduct, {
+    axios.post(`${API_URL}/products`, newProduct, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(() => fetchProducts(searchTerm, selectedCategory))
@@ -67,7 +68,7 @@ function App() {
   };
 
   const handleDelete = (id) => {
-    axios.delete(`http://127.0.0.1:8000/products/${id}`, {
+    axios.delete(`${API_URL}/products/${id}`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(() => fetchProducts(searchTerm, selectedCategory))
@@ -75,7 +76,7 @@ function App() {
   };
 
   const handleUpdate = (id, updatedProduct) => {
-    axios.put(`http://127.0.0.1:8000/products/${id}`, updatedProduct, {
+    axios.put(`${API_URL}/products/${id}`, updatedProduct, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(() => fetchProducts(searchTerm, selectedCategory))
@@ -100,7 +101,7 @@ function App() {
           <div className="flex justify-between items-center mb-6">
             <div>
               <h1 className="text-2xl font-bold text-slate-800">{currentPage}</h1>
-              <p className="text-sm text-slate-500">Welcome back 👋</p>
+              <p className="text-sm text-slate-500">Welcome back</p>
             </div>
           </div>
 

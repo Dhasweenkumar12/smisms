@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { API_URL } from './config';
 
 function Purchases({ token, products }) {
   const [purchases, setPurchases] = useState([]);
@@ -7,7 +8,7 @@ function Purchases({ token, products }) {
   const [quantity, setQuantity] = useState('');
 
   const fetchPurchases = () => {
-    axios.get('http://127.0.0.1:8000/purchases')
+    axios.get(`${API_URL}/purchases`)
       .then((response) => setPurchases(response.data))
       .catch((error) => console.error('Error fetching purchases:', error));
   };
@@ -19,7 +20,7 @@ function Purchases({ token, products }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://127.0.0.1:8000/purchases', {
+    axios.post(`${API_URL}/purchases`, {
       product_id: parseInt(productId),
       quantity: parseInt(quantity),
     }, {
